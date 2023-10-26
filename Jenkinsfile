@@ -14,14 +14,18 @@ pipeline {
   stage("MVN Clean") {
       
              steps{
-             sh 'mvn clean'
+             withMaven(maven: 'mvn') {
+            sh "mvn clean "
+        }
             }
           }
 
   stage("MVN Compile") {
       
              steps{
-             sh 'mvn compile'
+              withMaven(maven: 'mvn') {
+            sh "mvn clean compile"
+        }
             }
           }
       }
