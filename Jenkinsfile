@@ -6,9 +6,15 @@ pipeline {
          stage("Git") {
       
              steps{
-              sh 'git clone https://github.com/naderayed/DevOps_project.git' 
-              sh 'git checkout main'
-              sh 'git origin pull main'      
+
+            def workspacePath = pwd() // Get the current workspace path
+            if (fileExists("${workspacePath}/DevOps_project")) {
+            echo 'Workspace already exists. Skipping Git clone.'
+            } else {
+            sh 'git clone https://github.com/naderayed/DevOps_project.git' 
+            }
+             sh 'git checkout main'
+             sh 'git origin pull main'    
             }
           }
 
