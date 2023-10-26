@@ -3,24 +3,26 @@ pipeline {
       agent any
 
       stages {
-         stage("build") {
+         stage("Git") {
       
              steps{
-              echo 'building the application...'
+              sh 'git clone https://github.com/naderayed/DevOps_project.git' 
+              sh 'git checkout main'
+              sh 'git origin pull'      
             }
           }
 
-  stage("test") {
+  stage("MVN Clean") {
       
              steps{
-              echo 'testing the application...'
+             sh 'mvn clean'
             }
           }
 
-  stage("deploy") {
+  stage("MVN Compile") {
       
              steps{
-              echo 'depling the application...'
+             sh 'mvn compile'
             }
           }
       }
