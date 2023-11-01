@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage("Git") {
             steps {
-                sh 'git checkout main'
-                sh 'git pull origin main'
+                sh 'git checkout marco'
+                sh 'git pull origin marco'
             }
         }
 
