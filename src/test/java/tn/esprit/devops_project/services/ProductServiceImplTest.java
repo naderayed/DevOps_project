@@ -134,7 +134,7 @@ class ProductServiceImplTest {
                 product
         );
         when(productRepository.findByStockIdStock(stockId)).thenReturn(expectedProducts);
-        when(stockRepository.findById(1L)).thenReturn(Optional.ofNullable(Mockito.mock(Stock.class)));
+
         // Act
         List<Product> actualProducts = productService.retreiveProductStock(stockId);
 
