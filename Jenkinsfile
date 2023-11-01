@@ -26,5 +26,11 @@ pipeline {
 
             }
         }
+  stage("Junit") {
+      
+             steps{
+             sh 'mvn test'
+            }
+        }
     }
 }
