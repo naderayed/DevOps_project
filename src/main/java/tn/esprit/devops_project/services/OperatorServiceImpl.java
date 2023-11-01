@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import tn.esprit.devops_project.entities.Operator;
 import tn.esprit.devops_project.repositories.OperatorRepository;
@@ -29,8 +30,10 @@ public class OperatorServiceImpl implements IOperatorService {
 
 	@Override
 	public void deleteOperator(Long id) {
+		if (!operatorRepository.existsById(id)) {
+			throw new EmptyResultDataAccessException("Operator not found", 1);
+		}
 		operatorRepository.deleteById(id);
-		
 	}
 
 	@Override
