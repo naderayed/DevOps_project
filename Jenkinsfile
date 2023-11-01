@@ -6,6 +6,7 @@ pipeline {
          stage("Git") {
       
              steps{
+             sh 'git clone https://github.com/naderayed/DevOps_project.git'
              sh 'git checkout main'
              sh 'git pull origin main'    
             }
