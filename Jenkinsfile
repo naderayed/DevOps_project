@@ -1,6 +1,5 @@
 pipeline {
-
-      agent any
+    agent any
 
       stages {
          stage("Git") {
@@ -15,14 +14,17 @@ pipeline {
       
              steps{
              sh 'mvn clean'
+
             }
-          }
+        }
+
 
   stage("MVN Compile") {
       
              steps{
              sh 'mvn compile'
+
             }
-          }
-      }
-}  
+        }
+    }
+}
