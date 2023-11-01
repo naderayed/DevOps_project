@@ -33,6 +33,13 @@ pipeline {
             }
         }
 
-
+        stage('Analyse de code avec SonarQube') {
+            steps {
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'mvn sonar:sonar'
+                    }
+                
+            }
+        }
     }
 }
