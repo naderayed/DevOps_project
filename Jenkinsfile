@@ -1,32 +1,20 @@
 pipeline {
+    agent any
 
-      agent any
-
-      stages {
-         stage("Git") {
-      
-             steps{
-             sh 'git checkout main'
-             sh 'git pull origin main'    
+    stages {
+        stage("Git") {
+            steps {
+                sh 'git checkout aymen_pipeline'
+                sh 'git pull origin aymen_pipeline'
             }
-          }
-
-  stage("MVN Clean") {
-      
-             steps{
-             withMaven(maven: 'mvn') {
-            sh "mvn clean"
         }
-            }
-          }
 
-  stage("MVN Compile") {
-      
-             steps{
-              withMaven(maven: 'mvn') {
-            sh "mvn clean compile"
-        }
+        stage("Build") {
+            steps {
+                withMaven(maven: 'mvn') {
+                    sh "mvn package"
+                }
             }
-          }
-      }
-}  
+        }
+    }
+}
