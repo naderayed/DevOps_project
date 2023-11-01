@@ -16,11 +16,13 @@ pipeline {
                 }
             }
         }
-         stage('Analyse de code avec SonarQube') {
+
+        stage('Analyse de code avec SonarQube') {
             steps {
+                withMaven(maven: 'mvn') {
                     withSonarQubeEnv('SonarQube') {
                         sh 'mvn sonar:sonar'
-            
+                    }
                 }
             }
         }
