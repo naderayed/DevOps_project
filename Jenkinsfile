@@ -32,5 +32,16 @@ pipeline {
                 }
             }
         }
+        
+        stage('Analyse de code avec SonarQube') {
+            steps {
+                // Change the working directory to the 'kaddem' subdirectory
+                
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'mvn sonar:sonar'
+                    }
+                
+            }
+        }
     }
 }
