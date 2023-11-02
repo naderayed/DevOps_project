@@ -9,9 +9,15 @@ pipeline {
             }
         }
 
-        stage("Build") {
+        stage("Test maven") {
             steps {
-                    sh 'mvn package'
+                sh 'mvn test'
+            }
+        }
+
+        stage("Build artifact") {
+            steps {
+                sh 'mvn package'
             }
         }
     }
