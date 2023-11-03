@@ -8,6 +8,11 @@ pipeline {
                 sh 'git pull origin aymen_pipeline'
             }
         }
+        stage('Cleaning the project') {
+            steps {
+               sh "mvn clean"
+            }
+        }
 
         stage("Test maven") {
             steps {
