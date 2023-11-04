@@ -2,24 +2,31 @@ pipeline {
     agent any
 
     stages {
-        stage("Git") {
+        stage("Git Pulling Stage") {
             steps {
-                sh 'git checkout aymen_pipeline'
-                sh 'git pull origin aymen_pipeline'
+                sh 'git checkout nader'
+                sh 'git pull origin nader'
             }
         }
 
-        stage("Build") {
+        stage("Cleaning Stage") {
             steps {
                 withMaven(maven: 'mvn') {
-                    sh "mvn package"
+                    sh "mvn clean"
                 }
             }
         }
-         stage('Analyse de code avec SonarQube') {
+               stage("Testing Stage") {
+            steps {
+                withMaven(maven: 'mvn') {
+                    sh "mvn test"
+                }
+            }
+        }
+         stage('SonarQube Scanning') {
             steps {
                  withMaven(maven: 'mvn') {
-                    withSonarQubeEnv('SonarQube') {
+                    withSonarQubeEnv('sonarQubeServer') {
                         sh 'mvn sonar:sonar'
                 }
                  }
