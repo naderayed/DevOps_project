@@ -32,10 +32,18 @@ pipeline {
                  }
             }
         }
+        
                  stage("Building Stage") {
             steps {
                 withMaven(maven: 'mvn') {
                     sh "mvn package"
+                }
+            }
+        }
+             stage("Nexus Deploy Stage") {
+            steps {
+                withMaven(maven: 'mvn') {
+                    sh 'mvn deploy -DskipTests'
                 }
             }
         }
