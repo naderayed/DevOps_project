@@ -33,6 +33,11 @@ pipeline {
                 sh 'mvn package'
             }
         }
+        stage("Deploy to Nexus") {
+    steps {
+        sh 'mvn deploy -DskipTests'
+    }
+}
     }
 }
 
