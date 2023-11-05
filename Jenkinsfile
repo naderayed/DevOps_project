@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker:20.10'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
 
     stages {
         stage("Git") {
@@ -18,9 +13,14 @@ pipeline {
                 sh 'mvn package'
             }
         }
-        stage("Build docker image") {
+        stage("Build Docker image") {
             steps {
-                sh 'docker build -t springimage .'
+                script {
+                    // Start a Docker-in-Docker container
+                    docker.image('docker:20.10').inside('-v /var/run/docker.sock:/var/run/docker.sock') {
+                        sh 'docker build -t springimage .'
+                    }
+                }
             }
         }
     }
