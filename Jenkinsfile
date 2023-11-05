@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker:20.10'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
 
     stages {
         stage("Git") {
@@ -15,10 +20,8 @@ pipeline {
         }
         stage("Build docker image") {
             steps {
-                sh 'sudo chmod 666 /var/run/docker.sock'
                 sh 'docker build -t springimage .'
             }
         }
     }
 }
-
