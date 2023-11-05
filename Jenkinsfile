@@ -16,34 +16,46 @@ pipeline {
                 }
             }
         }
-               stage("Testing Stage") {
+
+        stage("Testing Stage") {
             steps {
                 withMaven(maven: 'mvn') {
                     sh "mvn test"
                 }
             }
         }
-         stage('SonarQube Scanning') {
+
+        stage('SonarQube Scanning') {
             steps {
-                 withMaven(maven: 'mvn') {
+                withMaven(maven: 'mvn') {
                     withSonarQubeEnv('sonarQubeServer') {
                         sh 'mvn sonar:sonar'
+                    }
                 }
-                 }
             }
         }
-        
-                 stage("Building Stage") {
+
+        stage("Building Stage") {
             steps {
                 withMaven(maven: 'mvn') {
                     sh "mvn package"
                 }
             }
         }
-             stage("Nexus Deploy Stage") {
+
+        stage("Nexus Deploy Stage") {
             steps {
                 withMaven(maven: 'mvn') {
                     sh 'mvn deploy -DskipTests'
+                }
+            }
+        }
+
+        stage('Docker Build Stage') {
+            steps {
+                script {
+            
+                    sh 'docker build -t nader_devop-img .'
                 }
             }
         }
