@@ -47,14 +47,6 @@ pipeline {
                 }
             }
         }
-
-                  stage("Docker Build Stage") {
-            steps {
-           
-                    sh 'docker build -t nader_devops_img .'
-               
-            }
-        }
     }
    
 }
