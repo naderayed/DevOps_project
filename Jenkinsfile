@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
         DOCKER_IMAGE = 'aymenkhairoune/springimage:latest'
     }
 
@@ -26,10 +25,9 @@ pipeline {
         stage("Push Docker image to Docker Hub") {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
-                        sh "docker push $DOCKER_IMAGE"
-                    }
+                    // Log in to Docker Hub and push the image
+                    sh "docker login -u aymenkhairoune -p dockerhubpass"
+                    sh "docker push $DOCKER_IMAGE"
                 }
             }
         }
