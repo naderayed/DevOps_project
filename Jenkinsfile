@@ -54,8 +54,9 @@ pipeline {
         stage('Docker Build Stage') {
             steps {
                 script {
-            
+                    withDocker(docker: 'docker'){
                     sh 'docker build -t nader_devop-img .'
+                }
                 }
             }
         }
