@@ -15,9 +15,26 @@ pipeline {
 
         stage("Clean and Build") {
             steps {
+                sh 'mvn clean'
+                sh 'mvn test'
                 sh 'mvn package'
             }
         }
+
+        stage("SonarQube analysis") {
+            steps {
+                withSonarQubeEnv('sonarQubeServer') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+
+        stage("Deploy to Nexus") {
+            steps {
+                sh 'mvn deploy -DskipTests'
+            }
+        }
+
         stage("Build Docker image") {
             steps {
                 sh 'docker build -t $DOCKER_IMAGE .'
