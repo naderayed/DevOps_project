@@ -101,5 +101,8 @@
             </plugin>
         </plugins>
     </build>
+<properties>
+    <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+</properties>
 
 </project>
