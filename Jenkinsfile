@@ -12,6 +12,12 @@ pipeline {
                 sh 'git pull origin aymen_pipeline'
             }
         }
+
+        stage("Clean and Build") {
+            steps {
+                sh 'mvn package'
+            }
+        }
         stage("Build Docker image") {
             steps {
                 sh 'docker build -t $DOCKER_IMAGE .'
@@ -25,4 +31,3 @@ pipeline {
         }
     }
 }
-
