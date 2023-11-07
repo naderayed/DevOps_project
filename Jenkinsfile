@@ -33,13 +33,20 @@ pipeline {
             }
         }
 
-        stage('Analyse de code avec SonarQube') {
-            steps {
-                    withSonarQubeEnv('SonarQube') {
-                        sh 'mvn sonar:sonar'
+         stage('SonarQube Code Analyse') {
+                    steps {
+                            withSonarQubeEnv('SonarqubeServer') {
+                                sh 'mvn sonar:sonar'
+                            }
                     }
-                
-            }
-        }
+                  }
+
+                    stage("Nexus Deploy ") {
+                              steps {
+                                  withMaven(maven: 'mvn') {
+                                      sh 'mvn deploy -DskipTests'
+                                  }
+                              }
+                          }
     }
 }
