@@ -9,11 +9,9 @@ pipeline {
             }
         }
 
-        stage('Analyse de code avec SonarQube') {
+          stage("Nexus Deployment") {
             steps {
-                    withSonarQubeEnv('SonarqubeServer') {
-                        sh 'mvn sonar:sonar'
-                    }
+                sh 'mvn deploy -DskipTests'
             }
         }
     }
