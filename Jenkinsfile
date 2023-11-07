@@ -24,7 +24,8 @@ pipeline {
         stage("SonarQube analysis") {
             steps {
                 withSonarQubeEnv('sonarQubeServer') {
-                    sh 'mvn sonar:sonar'
+                    sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar'
+
                 }
             }
         }
