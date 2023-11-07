@@ -8,22 +8,14 @@ pipeline {
                 sh 'git pull origin marco'
             }
         }
-
-        stage("MVN Clean") {
-            steps {
-                withMaven(maven: 'mvn') {
-                    sh "mvn clean"
-                }
-            }
-        }
-
-        stage("MVN Compile") {
+ stage("MVN Compile") {
             steps {
                 withMaven(maven: 'mvn') {
                     sh "mvn clean compile"
                 }
             }
         }
+
 
         stage("Run Tests") {
             steps {
@@ -48,5 +40,12 @@ pipeline {
                                   }
                               }
                           }
+
+          stage("Nexus Deployment") {
+            steps {
+                sh 'mvn deploy -DskipTests'
+            }
+        }
+
     }
 }
