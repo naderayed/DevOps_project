@@ -100,6 +100,9 @@
                         </goals>
                     </execution>
                 </executions>
+                  <configuration>
+                <destFile>${project.build.directory}/jacoco-reports/jacoco.xml</destFile>
+            </configuration>
             </plugin>
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
