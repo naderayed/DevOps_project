@@ -12,14 +12,14 @@ pipeline {
         }
 
 
-  stage("MVN Compile") {
+  stage("Compiling project") {
       
              steps{
              sh 'mvn compile'
 
             }
         }
-  stage("Junit") {
+  stage("runing unit tests") {
       
              steps{
              sh 'mvn test'
