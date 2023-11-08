@@ -1,5 +1,8 @@
 pipeline {
     agent any
+
+      stages {
+
   stage("MVN Clean") {
       
              steps{
@@ -7,6 +10,8 @@ pipeline {
 
             }
         }
+
+
   stage("MVN Compile") {
       
              steps{
@@ -21,4 +26,4 @@ pipeline {
             }
         }
     }
-
+}
