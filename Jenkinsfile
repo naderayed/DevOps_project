@@ -33,13 +33,7 @@ pipeline {
                     }
                   }
 
-                    stage("Nexus Deploy ") {
-                              steps {
-
-                                      sh 'mvn deploy -DskipTests'
-
-                              }
-                          }
+        
 
           stage("Nexus Deployment") {
             steps {
