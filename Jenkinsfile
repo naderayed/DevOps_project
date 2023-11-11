@@ -53,7 +53,9 @@ pipeline {
 
         stage('Docker Build Stage') {
             steps {
-                 sh 'docker build -t nader_devops-img .'
+                 script {
+                        docker.build("nader/devops-img:${env.BUILD_NUMBER}")
+                    }
             }
         }
     }
