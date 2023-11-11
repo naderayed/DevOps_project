@@ -53,9 +53,7 @@ pipeline {
 
         stage('Docker Build Stage') {
             steps {
-                script {
-                    bat 'C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker build -t nader/devops-img.'
-                }
+             sh 'docker build -t nader-devops-img .'
             }
         }
     }
