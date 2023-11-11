@@ -66,6 +66,14 @@ pipeline {
                 sh "docker push $DOCKER_IMAGE"
             }
         }
+        
+        stage('Run Docker Compose') {
+            steps {
+                script {
+                    sh 'docker compose up -d'
+                }
+            }
+        }
     }
 }
 
