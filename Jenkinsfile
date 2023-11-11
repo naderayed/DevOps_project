@@ -35,6 +35,12 @@ pipeline {
             }
         }
 
+        stage("Build Artifact") {
+            steps {
+                sh 'mvn package'
+            }
+        }
+
         stage("SonarQube analysis") {
             steps {
                 withSonarQubeEnv('sonarQubeServer') {
@@ -63,3 +69,4 @@ pipeline {
         }
     }
 }
+
