@@ -68,12 +68,14 @@ pipeline {
     //    }
         
         stage('Run Docker Compose') {
-            steps {
-                script {
-                    sh 'docker compose up -d'
-                }
-            }
+    steps {
+        script {
+            sh 'docker compose up -d mysqldb'  // Start only the MySQL container
+            sleep 30  // Wait for 30 seconds (adjust as needed)
+            sh 'docker compose up -d backend-spring'  // Start the Spring Boot application
         }
+    }
+}
     }
 }
 
