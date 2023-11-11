@@ -34,19 +34,18 @@ pipeline {
                 }
             }
         }
-
-        stage("Build Artifact") {
-            steps {
-                sh 'mvn package'
-            }
-        }
-
         stage("SonarQube analysis") {
             steps {
                 withSonarQubeEnv('sonarQubeServer') {
                     // Use sonar.jacoco.reportPaths to specify the location of the JaCoCo XML report
                     sh "mvn sonar:sonar -Dsonar.jacoco.reportPaths=target/site/jacoco/jacoco.xml"
                 }
+            }
+        }
+        
+        stage("Build Artifact") {
+            steps {
+                sh 'mvn package'
             }
         }
 
