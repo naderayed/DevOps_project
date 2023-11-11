@@ -20,11 +20,26 @@ pipeline {
             }
         }
 
+        stage("Generate and Confirm JaCoCo Report") {
+            steps {
+                sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent -Djacoco.version=0.8.8 test jacoco:report'
+                script {
+                    // Check if the JaCoCo report file exists
+                    def jacocoReportPath = 'target/site/jacoco/jacoco.xml'
+                    if (fileExists(jacocoReportPath)) {
+                        echo "JaCoCo report generated successfully at: ${jacocoReportPath}"
+                    } else {
+                        error "Failed to generate JaCoCo report. File not found at: ${jacocoReportPath}"
+                    }
+                }
+            }
+        }
+
         stage("SonarQube analysis") {
             steps {
                 withSonarQubeEnv('sonarQubeServer') {
-                    sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent -Djacoco.version=0.8.8 test sonar:sonar'
-
+                    // Use sonar.jacoco.reportPaths to specify the location of the JaCoCo XML report
+                    sh "mvn sonar:sonar -Dsonar.jacoco.reportPaths=target/site/jacoco/jacoco.xml"
                 }
             }
         }
@@ -40,10 +55,10 @@ pipeline {
                 sh 'docker build -t $DOCKER_IMAGE .'
             }
         }
+
         stage("Push Docker image to Docker Hub") {
             steps {
-                        sh "docker push $DOCKER_IMAGE"
-                    
+                sh "docker push $DOCKER_IMAGE"
             }
         }
     }
