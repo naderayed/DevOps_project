@@ -10,6 +10,7 @@ services:
       - db:/var/lib/mysql
 
   backend-spring:
+    build: .
     depends_on:
       - mysql
     restart: on-failure
