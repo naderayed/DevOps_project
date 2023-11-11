@@ -10,6 +10,8 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - db:/var/lib/mysql
+    networks:
+      - my-network
 
   backend-spring:
     build: .
@@ -22,6 +24,12 @@ services:
       - .m2:/root/.m2
     stdin_open: true
     tty: true
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
 
 volumes:
   db:
