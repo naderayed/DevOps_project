@@ -20,6 +20,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Invoice implements Serializable {
 	private static final long serialVersionUID = 1L;
