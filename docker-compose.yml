@@ -2,18 +2,20 @@ version: "3"
 
 services:
   mysqldb:
-    image: mysql:5.7
+    container_name: mysqldb
+    image: mysql:8.0
     restart: unless-stopped
     ports:
       - "3307:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: 
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - db:/var/lib/mysql
     networks:
       - my-network
 
   backend-spring:
+    container_name: backend-spring
     build: .
     depends_on:
       - mysqldb
