@@ -21,7 +21,7 @@ services:
       - mysqldb
     restart: on-failure
     ports:
-      - "6868:8082"
+      - "8082:8082"
     volumes:
       - .m2:/root/.m2
     stdin_open: true
