@@ -1,8 +1,8 @@
 pipeline {
         agent any
         environment { 
-        registry = "https://hub.docker.com/repository/docker/naderayed/devops" 
-        registryCredential = 'dockerhubCredentials' 
+        // registry = "https://hub.docker.com/repository/docker/naderayed/devops" 
+        // registryCredential = 'dockerhubCredentials' 
         dockerImage = '' 
     }
     stages {
@@ -63,15 +63,14 @@ pipeline {
             }
         }
 
-     stage('Push Image Stage') {
-         steps {
-               script { 
-                    docker.withRegistry( '', registryCredential ) { 
-                        dockerImage.push() 
-                    }
-
-                } 
-            }
-        }
+     // stage('Push Image Stage') {
+     //     steps {
+     //           script { 
+     //                docker.withRegistry( '', registryCredential ) { 
+     //                    dockerImage.push() 
+     //                }
+     //            } 
+     //        }
+     //    }
     }
 }
