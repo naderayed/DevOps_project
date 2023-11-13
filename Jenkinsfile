@@ -3,6 +3,10 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'aymenkhairoune/springimage:latest'
+        NEXUS_URL = 'http://192.168.33.30:8081'
+        NEXUS_REPOSITORY_PATH = '/repository/maven-releases/tn/'
+        NEXUS_USERNAME = 'admin'
+        NEXUS_PASSWORD = 'admin'
     }
 
     stages {
@@ -33,6 +37,16 @@ pipeline {
         stage("Build Artifact") {
             steps {
                 sh 'mvn package'
+            }
+        }
+        stage("Delete Contents in Nexus Folder") {
+            steps {
+                script {
+                    def nexusApiUrl = "${NEXUS_URL}/service/rest/v1${NEXUS_REPOSITORY_PATH}"
+                    
+                    // Use curl to delete contents of the folder
+                    sh "curl -X DELETE -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} ${nexusApiUrl}"
+                }
             }
         }
     
