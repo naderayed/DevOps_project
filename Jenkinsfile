@@ -56,5 +56,11 @@ pipeline {
              sh 'docker build -t nader-devops-img .'
             }
         }
+
+     stage('Push Image Stage') {
+         steps {
+              sh "docker push nader-devops-img "
+            }
+        }
     }
 }
