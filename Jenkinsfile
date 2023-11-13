@@ -39,19 +39,11 @@ pipeline {
                 sh 'mvn package'
             }
         }
-        stage("Delete Contents in Nexus Folder") {
-            steps {
-                script {
-                    def nexusApiUrl = "${NEXUS_URL}/service/rest/v1${NEXUS_REPOSITORY_PATH}"
-                    
-                    // Use curl to delete contents of the folder
-                    sh "curl -X DELETE -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} ${nexusApiUrl}"
-                }
-            }
-        }
-    
+        
         stage("Deploy to Nexus") {
             steps {
+                def nexusApiUrl = "${NEXUS_URL}/service/rest/v1${NEXUS_REPOSITORY_PATH}"
+                sh "curl -X DELETE -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} ${nexusApiUrl}"
                 sh 'mvn deploy -DskipTests'
             }
         }
