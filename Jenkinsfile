@@ -58,7 +58,7 @@ pipeline {
         stage('Docker Build Stage') {
             steps {
                 script { 
-                    dockerImage = docker.build nader-dev-img" 
+                    dockerImage = docker.build naderdev_img" 
                 }
             }
         }
