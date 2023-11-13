@@ -58,7 +58,7 @@ pipeline {
         stage('Docker Build Stage') {
             steps {
                 script { 
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                    dockerImage = docker.build nader-dev-img" 
                 }
             }
         }
