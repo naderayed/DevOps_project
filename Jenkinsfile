@@ -44,13 +44,18 @@ pipeline {
 
         stage("Build Docker image") {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE .'
-            }
+                script {
+                        def dockerImage = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+                        sh "docker build -t ${dockerImage} ."
+                        env.DOCKER_IMAGE = dockerImage
         }
+    }
+}
+
 
     //    stage("Push Docker image to Docker Hub") {
     //        steps {
-    //            sh "docker push $DOCKER_IMAGE"
+    //            sh "docker push ${DOCKER_IMAGE}"
     //        }
     //    }
         
