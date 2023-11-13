@@ -1,6 +1,8 @@
 pipeline {
         agent any
-
+        environment {     
+    DOCKERHUB_CREDENTIALS= credentials('dockerhubcredentials')     
+} 
     stages {
         stage("Git Pulling Stage") {
             steps {
@@ -59,7 +61,9 @@ pipeline {
 
      stage('Push Image Stage') {
          steps {
-              sh "docker push nader-devops-img "
+                sh 'docker login -u naderayed -p $DOCKERHUB_CREDENTIALS'
+              sh 'docker push nader-devops-img '
+           sh 'docker logout' 
             }
         }
     }
