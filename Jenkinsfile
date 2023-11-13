@@ -1,5 +1,10 @@
 pipeline {
         agent any
+        environment { 
+        registry = "https://hub.docker.com/repository/docker/naderayed/devops" 
+        registryCredential = 'dockerhubCredentials' 
+        dockerImage = '' 
+    }
     stages {
         stage("Git Pulling Stage") {
             steps {
@@ -52,15 +57,20 @@ pipeline {
 
         stage('Docker Build Stage') {
             steps {
-             sh 'docker build -t nader-devops-img .'
+                script { 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                }
             }
         }
 
      stage('Push Image Stage') {
          steps {
-             withDockerRegistry([ credentialsId: "dockerhubCredentials", url: "" ]) {
-                      sh 'docker push nader-devops-img'
-                }
+               script { 
+                    docker.withRegistry( '', registryCredential ) { 
+                        dockerImage.push() 
+                    }
+
+                } 
             }
         }
     }
