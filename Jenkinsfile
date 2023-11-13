@@ -45,10 +45,10 @@ pipeline {
         stage("Build Docker image") {
             steps {
                 script {
-                        def dockerImage = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
-                        sh "docker build -t ${dockerImage} ."
-                        env.DOCKER_IMAGE = dockerImage
-        }
+                    def dockerImageWithBuildNumber = "aymenkhairoune/springimage:${env.BUILD_NUMBER}"
+                    sh "docker build -t ${dockerImageWithBuildNumber} ."
+                    env.DOCKER_IMAGE = dockerImageWithBuildNumber
+                }
     }
 }
 
