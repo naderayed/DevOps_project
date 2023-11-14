@@ -42,9 +42,11 @@ pipeline {
         
         stage("Deploy to Nexus") {
             steps {
+                script {
                 def nexusApiUrl = "${NEXUS_URL}/service/rest/v1${NEXUS_REPOSITORY_PATH}"
                 sh "curl -X DELETE -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} ${nexusApiUrl}"
                 sh 'mvn deploy -DskipTests'
+                }
             }
         }
 
