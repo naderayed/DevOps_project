@@ -61,11 +61,11 @@ pipeline {
 }
 
 
-    //    stage("Push Docker image to Docker Hub") {
-    //        steps {
-    //            sh "docker push ${DOCKER_IMAGE}"
-    //        }
-    //    }
+        stage("Push Docker image to Docker Hub") {
+            steps {
+                sh "docker push ${DOCKER_IMAGE}"
+            }
+        }
         
         stage('Run Docker Compose') {
     steps {
