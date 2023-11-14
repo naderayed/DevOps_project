@@ -7,6 +7,7 @@ pipeline {
         NEXUS_REPOSITORY_PATH = '/repository/maven-releases/tn/'
         NEXUS_USERNAME = 'admin'
         NEXUS_PASSWORD = 'admin'
+        EMAIL_TO = 'aymen.khairoune@esprit.tn'
     }
 
     stages {
@@ -81,6 +82,19 @@ pipeline {
                 script {
                    sh 'docker start prometheus'
                    sh 'docker start grafana'
+                }
+            }
+        }
+        stage("Send Email Notification") {
+            steps {
+                script {
+                    currentBuild.result = 'SUCCESS'  // Set build result to SUCCESS
+
+                    emailext(
+                        subject: "Build Successful: ${currentBuild.fullDisplayName}",
+                        body: "The build was successful. You can view the details at ${BUILD_URL}",
+                        recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']]
+                    )
                 }
             }
         }
