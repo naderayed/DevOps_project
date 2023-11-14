@@ -58,13 +58,21 @@ pipeline {
             }
         }
             
-                stage('Docker Push Stage') {
+        //         stage('Docker Push Stage') {
+        //     steps {
+        //                script {
+        //                 docker.withRegistry('https://registry.hub.docker.com', 'dockerhubCredentials') {
+        //                     docker.image("naderayed/devops:${env.BUILD_NUMBER}").push()
+        //                 }
+        //             }
+        //     }
+        // }
+
+               stage('Docker Build Stage') {
             steps {
-                       script {
-                        docker.withRegistry('https://registry.hub.docker.com', 'dockerhubCredentials') {
-                            docker.image("naderayed/devops:${env.BUILD_NUMBER}").push()
-                        }
-                    }
+                script { 
+                sh 'docker-compose -f docker-compose-nader.yaml up'
+                }
             }
         }
 
