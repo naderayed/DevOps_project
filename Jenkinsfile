@@ -86,8 +86,19 @@ pipeline {
         }
         stage("Send Email Notification") {
             steps {
-                emailext body: 'Pipeline Went Successful ! ', subject: 'Nouveau commit sur GitHub', to: 'aymen.khairoune@esprit.tn'
-            }
+                script {
+                    currentBuild.result = 'SUCCESS'  // Set build result to SUCCESS
+                    emailext(
+                        subject: "Build #${currentBuild.number} Successful: ${currentBuild.fullDisplayName}",
+                        body: """
+                            <p>The build was successful!</p>
+                            <p>Build Details: ${BUILD_URL}</p>
+                            <p>Build Number: ${currentBuild.number}</p>
+                            <p>Build Status: ${currentBuild.currentResult}</p>
+                        """,
+                        to: 'aymen.khairoune@esprit.tn'
+                    )
+                }
             }
         }
     }
