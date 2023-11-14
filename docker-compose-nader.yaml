@@ -12,7 +12,7 @@ services:
       - devops-network
 
   devops-project:
-    image: naderayed/devops:latest
+    build: .
     ports:
       - 8086:8086
     networks:
