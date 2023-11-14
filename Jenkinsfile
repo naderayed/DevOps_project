@@ -68,7 +68,7 @@ pipeline {
         //     }
         // }
 
-               stage('Docker Build Stage') {
+               stage('Docker Compose Stage') {
             steps {
                 script { 
                 sh 'docker-compose -f docker-compose-nader.yaml up'
