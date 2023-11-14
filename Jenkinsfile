@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'aymenkhairoune/springimage:latest'
+        DOCKER_IMAGE = "aymenkhairoune/springimage:${env.BUILD_NUMBER}"
         NEXUS_URL = 'http://192.168.33.30:8081'
         NEXUS_REPOSITORY_PATH = '/repository/maven-releases/tn/'
         NEXUS_USERNAME = 'admin'
@@ -24,7 +24,6 @@ pipeline {
             }
         }
 
-
         stage("SonarQube analysis") {
             steps {
                 withSonarQubeEnv('sonarQubeServer') {
@@ -33,19 +32,19 @@ pipeline {
                 }
             }
         }
-        
+
         stage("Build Artifact") {
             steps {
                 sh 'mvn package'
             }
         }
-        
+
         stage("Deploy to Nexus") {
             steps {
                 script {
-                def nexusApiUrl = "${NEXUS_URL}/service/rest/v1${NEXUS_REPOSITORY_PATH}"
-                sh "curl -X DELETE -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} ${nexusApiUrl}"
-                sh 'mvn deploy -DskipTests'
+                    def nexusApiUrl = "${NEXUS_URL}/service/rest/v1${NEXUS_REPOSITORY_PATH}"
+                    sh "curl -X DELETE -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} ${nexusApiUrl}"
+                    sh 'mvn deploy -DskipTests'
                 }
             }
         }
@@ -53,41 +52,40 @@ pipeline {
         stage("Build Docker image") {
             steps {
                 script {
-                    def dockerImageWithBuildNumber = "aymenkhairoune/springimage:${env.BUILD_NUMBER}"
-                    sh "docker build -t ${dockerImageWithBuildNumber} ."
-                    env.DOCKER_IMAGE = dockerImageWithBuildNumber
+                    sh "docker build -t ${DOCKER_IMAGE} ."
                 }
-    }
-}
-
+            }
+        }
 
         stage("Push Docker image to Docker Hub") {
             steps {
                 sh "docker push ${DOCKER_IMAGE}"
             }
         }
-        
+
         stage('Run Docker Compose') {
-    steps {
-        script {
-            sh 'docker compose up -d mysqldb'
-            sleep 30  
-            sh 'docker compose up -d backend-spring'  
+            steps {
+                script {
+                    sh "docker compose up -d mysqldb"
+                    sleep 30
+                    sh "docker compose up -d backend-spring-${env.BUILD_NUMBER}"  // Use the build number as the tag
                 }
             }
         }
+
         stage('Prometheus & Grafana') {
             steps {
                 script {
-                   sh 'docker start prometheus'
-                   sh 'docker start grafana'
+                    sh 'docker start prometheus'
+                    sh 'docker start grafana'
                 }
             }
         }
+
         stage("Send Email Notification") {
             steps {
                 script {
-                    currentBuild.result = 'SUCCESS' 
+                    currentBuild.result = 'SUCCESS'
                     emailext(
                         subject: "Build #${currentBuild.number} Successful: ${currentBuild.fullDisplayName}",
                         body: """
@@ -103,4 +101,3 @@ pipeline {
         }
     }
 }
-
