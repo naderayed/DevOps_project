@@ -16,7 +16,7 @@ services:
 
   backend-spring:
     container_name: backend-spring
-    image: aymenkhairoune/springimage:latest
+    image: aymenkhairoune/springimage:${BUILD_NUMBER}  # Use the build number as the tag
     depends_on:
       - mysqldb
     restart: on-failure
