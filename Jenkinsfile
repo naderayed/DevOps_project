@@ -1,6 +1,5 @@
 pipeline {
         agent any
-
     stages {
         stage("Git Pulling Stage") {
             steps {
@@ -54,11 +53,20 @@ pipeline {
         stage('Docker Build Stage') {
             steps {
                 script { 
-                    dockerImage = docker.build naderdev_img
+                 docker.build("naderayed/devops:${env.BUILD_NUMBER}")
                 }
             }
         }
-
+            
+                stage('Docker Push Stage') {
+            steps {
+                       script {
+                        docker.withRegistry('https://registry.hub.docker.com', 'dockerhubCredentials') {
+                            docker.image("naderayed/devops:${env.BUILD_NUMBER}").push()
+                        }
+                    }
+            }
+        }
 
     }
 }
