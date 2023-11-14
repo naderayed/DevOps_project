@@ -64,14 +64,14 @@ pipeline {
         }
 
         stage('Run Docker Compose') {
-            steps {
-                script {
-                    sh "docker compose up -d mysqldb"
-                    sleep 30
-                    sh "docker compose up -d backend-spring-${env.BUILD_NUMBER}"  // Use the build number as the tag
-                }
+        steps {
+            script {
+                sh "docker compose up -d mysqldb"
+                sleep 30
+                sh "docker compose up -d backend-spring-${BUILD_NUMBER}"
             }
         }
+    }
 
         stage('Prometheus & Grafana') {
             steps {
