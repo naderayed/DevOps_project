@@ -7,7 +7,6 @@ pipeline {
         NEXUS_REPOSITORY_PATH = '/repository/maven-releases/tn/'
         NEXUS_USERNAME = 'admin'
         NEXUS_PASSWORD = 'admin'
-        EMAIL_TO = 'aymen.khairoune@esprit.tn'
     }
 
     stages {
@@ -87,15 +86,8 @@ pipeline {
         }
         stage("Send Email Notification") {
             steps {
-                script {
-                    currentBuild.result = 'SUCCESS'  // Set build result to SUCCESS
-
-                    emailext(
-                        subject: "Build Successful: ${currentBuild.fullDisplayName}",
-                        body: "The build was successful. You can view the details at ${BUILD_URL}",
-                        recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']]
-                    )
-                }
+                emailext body: 'Pipeline Went Successful ! ', subject: 'Nouveau commit sur GitHub', to: 'aymen.khairoune@esprit.tn'
+            }
             }
         }
     }
