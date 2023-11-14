@@ -14,9 +14,9 @@ services:
     networks:
       - my-network
 
-  backend-spring:
-    container_name: backend-spring
-    image: aymenkhairoune/springimage:${BUILD_NUMBER}  # Use the build number as the tag
+  backend-spring-${BUILD_NUMBER}:
+    container_name: backend-spring-${BUILD_NUMBER}
+    image: aymenkhairoune/springimage:${BUILD_NUMBER}  
     depends_on:
       - mysqldb
     restart: on-failure
