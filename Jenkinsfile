@@ -70,9 +70,9 @@ pipeline {
         stage('Run Docker Compose') {
     steps {
         script {
-            sh 'docker compose up -d mysqldb'  // Start only the MySQL container
-            sleep 30  // Wait for 30 seconds (adjust as needed)
-            sh 'docker compose up -d backend-spring'  // Start the Spring Boot application
+            sh 'docker compose up -d mysqldb'
+            sleep 30  
+            sh 'docker compose up -d backend-spring'  
                 }
             }
         }
@@ -87,14 +87,14 @@ pipeline {
         stage("Send Email Notification") {
             steps {
                 script {
-                    currentBuild.result = 'SUCCESS'  // Set build result to SUCCESS
+                    currentBuild.result = 'SUCCESS' 
                     emailext(
                         subject: "Build #${currentBuild.number} Successful: ${currentBuild.fullDisplayName}",
                         body: """
-                            <p>The build was successful!</p>
-                            <p>Build Details: ${BUILD_URL}</p>
-                            <p>Build Number: ${currentBuild.number}</p>
-                            <p>Build Status: ${currentBuild.currentResult}</p>
+                            The build was successful!
+                            Build Details: ${BUILD_URL}
+                            Build Number: ${currentBuild.number}
+                            Build Status: ${currentBuild.currentResult}
                         """,
                         to: 'aymen.khairoune@esprit.tn'
                     )
