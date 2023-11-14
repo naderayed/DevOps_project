@@ -16,16 +16,12 @@ services:
 
   backend-spring:
     container_name: backend-spring
-    build: .
+    image: aymenkhairoune/springimage:latest
     depends_on:
       - mysqldb
     restart: on-failure
     ports:
       - "8082:8082"
-    volumes:
-      - .m2:/root/.m2
-    stdin_open: true
-    tty: true
     networks:
       - my-network
 
@@ -35,4 +31,3 @@ networks:
 
 volumes:
   db:
-  .m2:
