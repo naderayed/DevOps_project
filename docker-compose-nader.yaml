@@ -2,6 +2,7 @@ version: '3'
 services:
   mysql-devops:
     image: mysql
+    container_name:  mysql-devops
     ports:
       - 3306:3306
     environment:
@@ -11,7 +12,8 @@ services:
     networks:
       - devops-network
 
-  devops-project:
+  spring-devops-project:
+    container_name:  spring-devops-project
     build: .
     ports:
       - 8086:8086
