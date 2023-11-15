@@ -73,14 +73,14 @@ pipeline {
             }
         }
 
-        stage('Prometheus & Grafana') {
-            steps {
-                script {
-                    sh 'docker start prometheus'
-                    sh 'docker start grafana'
-                }
-            }
-        }
+     //   stage('Prometheus & Grafana') {
+     //       steps {
+     //           script {
+     //               sh 'docker start prometheus'
+     //               sh 'docker start grafana'
+     //           }
+     //       }
+     //   }
 
         stage("Send Email Notification") {
             steps {
