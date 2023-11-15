@@ -14,7 +14,7 @@ services:
 
   spring-devops-project:
     container_name:  spring-devops-project
-    build: .
+    image: 
     ports:
       - 8086:8086
     networks:
