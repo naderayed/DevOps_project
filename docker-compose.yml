@@ -11,7 +11,7 @@ services:
     networks:
       - projectnetwork
   spring-boot:
-    image: devops_project:1.0
+    image: marcoss97/devops_project:1.0
     container_name: backend
     ports:
       - 8082:8082
