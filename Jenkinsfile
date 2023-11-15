@@ -68,7 +68,7 @@ pipeline {
             script {
                 sh "docker compose up -d mysqldb"
                 sleep 30
-                sh "docker compose up -d backend-spring-${BUILD_NUMBER}"
+                sh "docker compose up -d backend-spring"
             }
         }
     }
