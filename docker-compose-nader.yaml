@@ -14,7 +14,7 @@ services:
 
   spring-app:
     container_name: spring-app
-    image: naderayed/devops:61
+    image: naderayed/devops:${BUILD_NUMBER}
     depends_on:
       - mysqldb
     ports:
