@@ -1,16 +1,13 @@
 pipeline {
     agent any
-    triggers {
-        pollSCM('*/1 * * * *')
-    }
     environment {
         DOCKER_IMAGE = "aymenkhairoune/springimage:${env.BUILD_NUMBER}"
         NEXUS_URL = 'http://192.168.33.30:8081'
         NEXUS_REPOSITORY_PATH = '/repository/maven-releases/tn/'
-        NEXUS_USERNAME = 'admin'
-        NEXUS_PASSWORD = 'admin'
     }
-
+    triggers {
+        pollSCM('*/1 * * * *')
+    }
     stages {
         stage("Git") {
             steps {
@@ -44,8 +41,10 @@ pipeline {
             steps {
                 script {
                     def nexusApiUrl = "${NEXUS_URL}/service/rest/v1${NEXUS_REPOSITORY_PATH}"
-                    sh "curl -X DELETE -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} ${nexusApiUrl}"
-                    sh 'mvn deploy -DskipTests'
+                    withCredentials([usernamePassword(credentialsId: 'nexus-credentials-id', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                        sh "curl -X DELETE -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} ${nexusApiUrl}"
+                        sh 'mvn deploy -DskipTests'
+                    }
                 }
             }
         }
@@ -58,11 +57,11 @@ pipeline {
             }
         }
 
-        stage("Push Docker image to Docker Hub") {
-            steps {
-                sh "docker push ${DOCKER_IMAGE}"
-            }
-        }
+    //    stage("Push Docker image to Docker Hub") {
+    //        steps {
+    //            sh "docker push ${DOCKER_IMAGE}"
+    //        }
+    //    }
 
         stage('Run Docker Compose') {
         steps {
@@ -70,9 +69,9 @@ pipeline {
                 sh "docker compose up -d mysqldb"
                 sleep 30
                 sh "docker compose up -d backend-spring"
+                }
             }
         }
-    }
 
         stage('Prometheus & Grafana') {
             steps {
