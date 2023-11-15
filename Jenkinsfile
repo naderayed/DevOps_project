@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    triggers {
+        pollSCM('*/1 * * * *')
+    }
     environment {
         DOCKER_IMAGE = "aymenkhairoune/springimage:${env.BUILD_NUMBER}"
         NEXUS_URL = 'http://192.168.33.30:8081'
