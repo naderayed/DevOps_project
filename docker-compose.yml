@@ -35,6 +35,8 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - my-network
+    depends_on:
+      - backend-spring
 
   grafana:
     image: grafana/grafana
