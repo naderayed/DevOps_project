@@ -58,15 +58,15 @@ pipeline {
             }
         }
             
-        //         stage('Docker Push Stage') {
-        //     steps {
-        //                script {
-        //                 docker.withRegistry('https://registry.hub.docker.com', 'dockerhubCredentials') {
-        //                     docker.image("naderayed/devops:${env.BUILD_NUMBER}").push()
-        //                 }
-        //             }
-        //     }
-        // }
+                stage('Docker Push Stage') {
+            steps {
+                       script {
+                        docker.withRegistry('https://registry.hub.docker.com', 'dockerhubCredentials') {
+                            docker.image("naderayed/devops:${env.BUILD_NUMBER}").push()
+                        }
+                    }
+            }
+        }
 
                stage('Docker Compose Stage') {
             steps {
