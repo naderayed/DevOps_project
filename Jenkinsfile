@@ -57,31 +57,21 @@ pipeline {
             }
         }
 
-    //    stage("Push Docker image to Docker Hub") {
-    //        steps {
-    //            sh "docker push ${DOCKER_IMAGE}"
-    //        }
-    //    }
+        stage("Push Docker image to Docker Hub") {
+            steps {
+                sh "docker push ${DOCKER_IMAGE}"
+            }
+        }
 
         stage('Run Docker Compose') {
         steps {
             script {
                 sh "docker compose up -d mysqldb"
-                sleep 30
+                sleep 20
                 sh "docker compose up -d"
                 }
             }
         }
-
-     //   stage('Prometheus & Grafana') {
-     //       steps {
-     //           script {
-     //               sh 'docker start prometheus'
-     //               sh 'docker start grafana'
-     //           }
-     //       }
-     //   }
-
         stage("Send Email Notification") {
             steps {
                 script {
